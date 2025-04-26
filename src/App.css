@@ -11,22 +11,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(223, 228, 228);
+  background-color: #D4C9BE;
 }
 
 .login-form{
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 20rem;
+  background-color: #F1EFEC;
+  width: 25rem;
   padding: 2rem;
   align-items: flex-start;
   border: 1px solid rgb(177, 173, 173) ;
+  color: #123458;
   border-radius: 5px;
 }
 
 .login input, .password input{
-  width: 100%;
+  width: 20rem;
   padding: 8px 15px;
   border-radius: 4px;
   outline: none;
@@ -36,15 +38,24 @@
 
 input[type='checkbox']{
   width: 10%;
+  background-color: #123458;
 }
+
 
 .login-button{
   padding: 5px 10px;
   border-radius: 4px;
   border: 1px solid gray;
-
+  color: #123458;
+  transition: 0.3s linear all;
 }
 
 button:hover{
   cursor: pointer;
+  background-color: #123458;
+  color: white;
+}
+
+button:disabled{
+  cursor: not-allowed;
 }

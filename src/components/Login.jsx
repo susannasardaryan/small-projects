@@ -1,49 +1,72 @@
-import { useState } from "react"
+import { useState } from "react";
 
 const Login = () => {
-    const [username, setUsername] = useState(JSON.parse(localStorage.getItem('loginInfo')).username || '');
-    const [password, setPassword] = useState(JSON.parse(localStorage.getItem('loginInfo')).password || '');
-    const [usernameWarningMessage, setUsernameWarningMessage] = useState('');
-    const [passwordShow, setPasswordShow] = useState(false);
-    const regexp = /^[a-zA-Z0-9]+$/;
+  const userInfo = JSON.parse(localStorage.getItem("loginInfo"));
 
-    const handleUsernameChange = ({ target }) => {
-        setUsername(target.value);
-        if (!regexp.test(target.value)) {
-            setUsernameWarningMessage('Your Username must icnlude only letters and number from 0-9');
-            setDisabled(true);
-        }
-        else setUsernameWarningMessage('')
-    }
+  const [userLoginInfo, setUserLoginInfo] = useState(userInfo ?? {});
 
-    const handlePasswordChange = ({ target }) => {
-        setPassword(target.value);
-    }
+  const [usernameWarningMessage, setUsernameWarningMessage] = useState("");
+  const [passwordShow, setPasswordShow] = useState(false);
+  const regexp = /^[a-zA-Z0-9]+$/;
+  const disabled = !!usernameWarningMessage || !userLoginInfo.password;
 
-    const handleLoginClick = () => {
-        localStorage.setItem('loginInfo', JSON.stringify({
-            username, password
-        }));
+  const handleUsernameChange = ({ target }) => {
+    setUserLoginInfo({ ...userLoginInfo, username: target.value });
 
-        alert('Your datta logged')
-    }
-    return (
-        <form className="login-form">
-            <label className="login">
-                Username
-                <input type="text" onChange={handleUsernameChange} value={username} required />
-            </label>
-            <span>{usernameWarningMessage}</span>
+    if (target.value.trim() === "") {
+      setUsernameWarningMessage("Username cannot be empty.");
+    } else if (!regexp.test(target.value)) {
+      setUsernameWarningMessage(
+        "Your Username must include only letters and number from 0-9"
+      );
+    } else setUsernameWarningMessage("");
+  };
 
-            <label className="password">
-                Password  <input type="checkbox" name="passwordShow" className="checkbox" checked={passwordShow} onChange={() => setPasswordShow(!passwordShow)} />
+  const handlePasswordChange = ({ target }) => {
+    setUserLoginInfo({ ...userLoginInfo, password: target.value });
+  };
 
-                <input type={passwordShow ? 'text' : 'password'} onChange={handlePasswordChange} value={password} required />
+  const handleLoginClick = () => {
+    localStorage.setItem("loginInfo", JSON.stringify(userLoginInfo));
+    alert("Your data logged");
+  };
 
-            </label>
-            <button onClick={handleLoginClick} disabled={!!usernameWarningMessage || !password} className="login-button">Login</button>
-        </form>
-    )
-}
+  return (
+    <form className="login-form">
+      <label className="login">
+        Username
+        <input
+          type="text"
+          onChange={handleUsernameChange}
+          value={userLoginInfo.username}
+          required
+        />
+      </label>
+      <span style={{ color: "brown" }}>{usernameWarningMessage}</span>
+
+      <label className="password">
+        Password
+        <input
+          type="checkbox"
+          checked={passwordShow}
+          onChange={() => setPasswordShow(!passwordShow)}
+        />
+        <input
+          type={passwordShow ? "text" : "password"}
+          onChange={handlePasswordChange}
+          value={userLoginInfo.password}
+          required
+        />
+      </label>
+      <button
+        onClick={handleLoginClick}
+        disabled={disabled}
+        className="login-button"
+      >
+        Login
+      </button>
+    </form>
+  );
+};
 
 export default Login;
