@@ -6,9 +6,10 @@ const Login = () => {
   const [userLoginInfo, setUserLoginInfo] = useState(userInfo ?? {});
 
   const [usernameWarningMessage, setUsernameWarningMessage] = useState("");
+  const [passwordWarningMessage, setPasswordWarningMessage] = useState("");
   const [passwordShow, setPasswordShow] = useState(false);
   const regexp = /^[a-zA-Z0-9]+$/;
-  const disabled = !!usernameWarningMessage || !userLoginInfo.password;
+  const disabled = !!usernameWarningMessage || !!passwordWarningMessage;
 
   const handleUsernameChange = ({ target }) => {
     setUserLoginInfo({ ...userLoginInfo, username: target.value });
@@ -23,6 +24,10 @@ const Login = () => {
   };
 
   const handlePasswordChange = ({ target }) => {
+    if (target.value.trim() === "") {
+      setPasswordWarningMessage("Password cannot be empty.");
+    }else setPasswordWarningMessage('')
+
     setUserLoginInfo({ ...userLoginInfo, password: target.value });
   };
 
@@ -58,6 +63,7 @@ const Login = () => {
           required
         />
       </label>
+      <span style={{ color: "brown" }}>{passwordWarningMessage}</span>
       <button
         onClick={handleLoginClick}
         disabled={disabled}
