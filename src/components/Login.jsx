@@ -4,6 +4,7 @@ const Login = () => {
     const [username, setUsername] = useState(JSON.parse(localStorage.getItem('loginInfo')).username || '');
     const [password, setPassword] = useState(JSON.parse(localStorage.getItem('loginInfo')).password || '');
     const [usernameWarningMessage, setUsernameWarningMessage] = useState('');
+    const [passwordShow, setPasswordShow] = useState(false);
     const regexp = /^[a-zA-Z0-9]+$/;
 
     const handleUsernameChange = ({ target }) => {
@@ -22,7 +23,9 @@ const Login = () => {
     const handleLoginClick = () => {
         localStorage.setItem('loginInfo', JSON.stringify({
             username, password
-        }))
+        }));
+
+        alert('Your datta logged')
     }
     return (
         <form className="login-form">
@@ -32,11 +35,13 @@ const Login = () => {
             </label>
             <span>{usernameWarningMessage}</span>
 
-            <label >
-                Password
-                <input type="text" onChange={handlePasswordChange} value={password} required />
+            <label className="password">
+                Password  <input type="checkbox" name="passwordShow" className="checkbox" checked={passwordShow} onChange={() => setPasswordShow(!passwordShow)} />
+
+                <input type={passwordShow ? 'text' : 'password'} onChange={handlePasswordChange} value={password} required />
+
             </label>
-            <button onClick={handleLoginClick} disabled={!!usernameWarningMessage || !password}>Login</button>
+            <button onClick={handleLoginClick} disabled={!!usernameWarningMessage || !password} className="login-button">Login</button>
         </form>
     )
 }

@@ -11,6 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgb(223, 228, 228);
 }
 
 .login-form{
@@ -18,13 +19,13 @@
   flex-direction: column;
   gap: 1rem;
   width: 20rem;
-  background-color: rgb(69, 112, 150);
-  padding: 10px;
+  padding: 2rem;
   align-items: flex-start;
+  border: 1px solid rgb(177, 173, 173) ;
+  border-radius: 5px;
 }
 
-input{
-  display: block;
+.login input, .password input{
   width: 100%;
   padding: 8px 15px;
   border-radius: 4px;
@@ -33,4 +34,17 @@ input{
 }
 
 
+input[type='checkbox']{
+  width: 10%;
+}
 
+.login-button{
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid gray;
+
+}
+
+button:hover{
+  cursor: pointer;
+}
