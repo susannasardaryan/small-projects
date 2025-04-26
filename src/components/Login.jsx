@@ -1,19 +1,21 @@
 import { useState } from "react"
 
 const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState(JSON.parse(localStorage.getItem('loginInfo')).username || '');
+    const [password, setPassword] = useState(JSON.parse(localStorage.getItem('loginInfo')).password || '');
     const [usernameWarningMessage, setUsernameWarningMessage] = useState('');
-    
+    const regexp = /^[a-zA-Z0-9]+$/;
 
-
-    const handleUsernameChange = ({target}) => {
+    const handleUsernameChange = ({ target }) => {
         setUsername(target.value);
-        if(target.value.includes('..') || target.value.includes('/') || target.value.includes('&')) setUsernameWarningMessage('Your Username must icnlude only letters and number from 0-9')
+        if (!regexp.test(target.value)) {
+            setUsernameWarningMessage('Your Username must icnlude only letters and number from 0-9');
+            setDisabled(true);
+        }
         else setUsernameWarningMessage('')
     }
 
-    const handlePasswordChange = ({target}) => {
+    const handlePasswordChange = ({ target }) => {
         setPassword(target.value);
     }
 
@@ -26,15 +28,15 @@ const Login = () => {
         <form className="login-form">
             <label className="login">
                 Username
-                <input type="text" onChange={handleUsernameChange} value={username}/>
-                <span>{usernameWarningMessage}</span>
+                <input type="text" onChange={handleUsernameChange} value={username} required />
             </label>
+            <span>{usernameWarningMessage}</span>
+
             <label >
                 Password
-                <input type="text" onChange={handlePasswordChange} value={password}/>
-                {/* <span>{warningMessage}</span> */}
+                <input type="text" onChange={handlePasswordChange} value={password} required />
             </label>
-            <button onClick={handleLoginClick}>Login</button>
+            <button onClick={handleLoginClick} disabled={!!usernameWarningMessage || !password}>Login</button>
         </form>
     )
 }
